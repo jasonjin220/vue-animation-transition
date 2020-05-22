@@ -11,19 +11,14 @@
         <br />
         <button @click="toggleAlert" class="btn btn-primary form-control">Show alerts</button>
 
-        <transition :name="selectedTransition">
-          <div v-if="show" class="alert alert-info my-2">This is a faded alert</div>
-        </transition>
-
         <transition :name="selectedTransition" mode="out-in">
-          <div
-            v-if="show"
-            class="alert alert-warning my-2"
-            key="warning"
-          >This is a slided and faded alert</div>
-          <div v-else class="alert alert-danger my-2" key="danger">This is a slided and faded alert</div>
+          <div v-if="show" class="alert alert-warning my-2" key="warning">Warning div</div>
+          <div v-else class="alert alert-danger my-2" key="danger">Danger div</div>
         </transition>
 
+        <transition :name="selectedTransition">
+          <div v-if="show" class="alert alert-info my-2">This is the first alert</div>
+        </transition>
         <hr />
 
         <transition enter-active-class="animated bounce" leave-active-class="animated swing">
@@ -41,8 +36,7 @@
         <hr />
 
         <button class="btn btn-success form-control" @click="load = !load">Load Remove Element</button>
-        <br />
-        <br />
+
         <transition
           @before-enter="beforeEnter"
           @enter="enter"
@@ -54,7 +48,45 @@
           @leave-cancelled="leaveCancelled"
           :css="false"
         >
-          <div style="width: 100px; height: 100px; background-color: lightblue" v-if="load"></div>
+          <div
+            style="width: 100%; height: 100px; background-color: lightgreen; margin-top: 5px; border-radius: 0 0 5px 5px; box-shadow: 1px 1px 2px #aaa"
+            v-if="load"
+          ></div>
+        </transition>
+
+        <hr />
+
+        <select class="form-control" v-model="selectedComponent">
+          <option value="app-danger-alert">Danger</option>
+          <option value="app-success-alert">Success</option>
+        </select>
+
+        <div class="form-check form-check-inline">
+          <input
+            type="radio"
+            class="form-check-input"
+            name="selectComponentRadio"
+            id="radioDangerComponent"
+            value="app-danger-alert"
+            v-model="selectedComponent"
+          />
+          <label class="form-check-label" for="radioDangerComponent">Danger</label>
+        </div>
+
+        <div class="form-check form-check-inline">
+          <input
+            type="radio"
+            class="form-check-input"
+            name="selectComponentRadio"
+            id="radioSuccessComponent"
+            value="app-success-alert"
+            v-model="selectedComponent"
+          />
+          <label class="form-check-label" for="radioSuccessComponent">Success</label>
+        </div>
+
+        <transition :name="selectedTransition" mode="out-in">
+          <component :is="selectedComponent" class="my-3"></component>
         </transition>
       </div>
     </div>
@@ -62,12 +94,22 @@
 </template>
 
 <script>
+import DangerAlert from "./components/DangerAlert.vue";
+import SuccessAlert from "./components/SuccessAlert.vue";
+
 export default {
+  components: {
+    "app-danger-alert": DangerAlert,
+    "app-success-alert": SuccessAlert
+  },
+
   data() {
     return {
       show: false,
       load: true,
-      selectedTransition: "fade"
+      selectedTransition: "fade",
+      elementWidth: 100,
+      selectedComponent: "app-success-alert"
     };
   },
 
@@ -84,11 +126,23 @@ export default {
 
     beforeEnter(el) {
       console.log("beforeEnter()");
+      this.elementWidth = 0;
+      el.style.width = this.elementWidth + "px";
     },
 
     enter(el, done) {
       console.log("enter()");
-      done(console.log("enter.done()"));
+
+      let round = 1;
+
+      const interval = setInterval(() => {
+        el.style.width = this.elementWidth + round * 10 + "px";
+        round++;
+        if (round > 30) {
+          clearInterval(interval);
+          done(console.log("enter.done()"));
+        }
+      }, 20);
     },
 
     afterEnter(el) {
@@ -101,11 +155,23 @@ export default {
 
     beforeLeave(el) {
       console.log("beforeLeave()");
+      this.elementWidth = 300;
+      el.style.width = this.elementWidth + "px";
     },
 
     leave(el, done) {
       console.log("leave()");
-      done(console.log("leave.done()"));
+
+      let round = 1;
+
+      const interval = setInterval(() => {
+        el.style.width = this.elementWidth - round * 10 + "px";
+        round++;
+        if (el.style.width == "0px") {
+          clearInterval(interval);
+          done(console.log("leave.done()"));
+        }
+      }, 10);
     },
 
     afterLeave(el) {
