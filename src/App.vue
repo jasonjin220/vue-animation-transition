@@ -3,105 +3,140 @@
     <div class="row">
       <div class="col">
         <div class="row my-3">
-          <h1>Animations</h1>
+          <div class="col">
+            <h1>Animations & Transitions</h1>
+          </div>
+        </div>
+        <div class="row my-4">
+          <div class="col">
+            <div class="btn-group" role="group" aria-label="Choose Part">
+              <button
+                @click="part = 1"
+                type="button"
+                :class="{ active: (part == 1) }"
+                class="btn btn-light"
+              >Part I</button>
+              <button
+                @click="part = 2"
+                type="button"
+                :class="{ active: (part == 2) }"
+                class="btn btn-light"
+              >Part II</button>
+            </div>
+          </div>
         </div>
         <div class="row">
-          <div class="col-sm-12 col-md-6">
-            <select class="form-control form-control-sm" v-model="selectedTransition">
-              <option value="fade">Fade</option>
-              <option value="slide">Slide</option>
-            </select>
-            <br />
-            <button @click="toggleAlert" class="btn btn-primary form-control">Show alerts</button>
+          <div class="col">
+            <div v-if="part == 1" class="row">
+              <div class="col-sm-12 col-md-6">
+                <select class="form-control form-control-sm" v-model="selectedTransition">
+                  <option value="fade">Fade</option>
+                  <option value="slide">Slide</option>
+                </select>
+                <br />
+                <button @click="toggleAlert" class="btn btn-primary form-control">Show alerts</button>
 
-            <transition :name="selectedTransition" mode="out-in">
-              <div v-if="show" class="alert alert-warning my-2" key="warning">Warning div</div>
-              <div v-else class="alert alert-danger my-2" key="danger">Danger div</div>
-            </transition>
+                <transition :name="selectedTransition" mode="out-in">
+                  <div v-if="show" class="alert alert-warning my-2" key="warning">Warning div</div>
+                  <div v-else class="alert alert-danger my-2" key="danger">Danger div</div>
+                </transition>
 
-            <transition :name="selectedTransition">
-              <div v-if="show" class="alert alert-info my-2">This is the first alert</div>
-            </transition>
+                <transition :name="selectedTransition">
+                  <div v-if="show" class="alert alert-info my-2">This is the first alert</div>
+                </transition>
 
-            <transition enter-active-class="animated bounce" leave-active-class="animated swing">
-              <div v-if="show" class="alert alert-info my-2">This is an animated bounce swing div</div>
-            </transition>
+                <transition
+                  enter-active-class="animated bounce"
+                  leave-active-class="animated swing"
+                >
+                  <div
+                    v-if="show"
+                    class="alert alert-info my-2"
+                  >This is an animated bounce swing div</div>
+                </transition>
 
-            <div
-              v-if="show"
-              :class="animationHeadShake"
-              class="alert alert-info my-2"
-            >This is animated alert</div>
+                <div
+                  v-if="show"
+                  :class="animationHeadShake"
+                  class="alert alert-info my-2"
+                >This is animated alert</div>
 
-            <hr />
+                <hr />
 
-            <button class="btn btn-success form-control" @click="load = !load">Load/Remove Element</button>
+                <button
+                  class="btn btn-success form-control"
+                  @click="load = !load"
+                >Load/Remove Element</button>
 
-            <transition
-              @before-enter="beforeEnter"
-              @enter="enter"
-              @after-enter="afterEnter"
-              @enter-cancelled="enterCancelled"
-              @before-leave="beforeLeave"
-              @leave="leave"
-              @after-leave="afterLeave"
-              @leave-cancelled="leaveCancelled"
-              :css="false"
-            >
-              <div
-                style="width: 100%; height: 100px; background-color: lightgreen; margin-top: 5px; border-radius: 0 0 5px 5px; box-shadow: 1px 1px 2px #aaa"
-                v-if="load"
-              ></div>
-            </transition>
+                <transition
+                  @before-enter="beforeEnter"
+                  @enter="enter"
+                  @after-enter="afterEnter"
+                  @enter-cancelled="enterCancelled"
+                  @before-leave="beforeLeave"
+                  @leave="leave"
+                  @after-leave="afterLeave"
+                  @leave-cancelled="leaveCancelled"
+                  :css="false"
+                >
+                  <div
+                    style="width: 100%; height: 100px; background-color: lightgreen; margin-top: 5px; border-radius: 0 0 5px 5px; box-shadow: 1px 1px 2px #aaa"
+                    v-if="load"
+                  ></div>
+                </transition>
 
-            <hr />
+                <hr />
 
-            <select class="form-control" v-model="selectedComponent">
-              <option value="app-danger-alert">Danger</option>
-              <option value="app-success-alert">Success</option>
-            </select>
+                <select class="form-control" v-model="selectedComponent">
+                  <option value="app-danger-alert">Danger</option>
+                  <option value="app-success-alert">Success</option>
+                </select>
 
-            <div class="form-check form-check-inline">
-              <input
-                type="radio"
-                class="form-check-input"
-                name="selectComponentRadio"
-                id="radioDangerComponent"
-                value="app-danger-alert"
-                v-model="selectedComponent"
-              />
-              <label class="form-check-label" for="radioDangerComponent">Danger</label>
+                <div class="form-check form-check-inline">
+                  <input
+                    type="radio"
+                    class="form-check-input"
+                    name="selectComponentRadio"
+                    id="radioDangerComponent"
+                    value="app-danger-alert"
+                    v-model="selectedComponent"
+                  />
+                  <label class="form-check-label" for="radioDangerComponent">Danger</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                  <input
+                    type="radio"
+                    class="form-check-input"
+                    name="selectComponentRadio"
+                    id="radioSuccessComponent"
+                    value="app-success-alert"
+                    v-model="selectedComponent"
+                  />
+                  <label class="form-check-label" for="radioSuccessComponent">Success</label>
+                </div>
+
+                <transition :name="selectedTransition" mode="out-in">
+                  <component :is="selectedComponent" class="my-3"></component>
+                </transition>
+              </div>
+              <div class="col-sm-12 col-md-6">
+                <button class="btn btn-light shadow border form-control" @click="addItem">Add Item</button>
+                <ul class="list-group my-3 shadow">
+                  <transition-group :name="selectedTransition">
+                    <li
+                      class="list-group-item"
+                      v-for="(number, index) in numbers"
+                      :key="number"
+                      @click="rmvItem(index)"
+                    >{{ number }}</li>
+                  </transition-group>
+                </ul>
+              </div>
             </div>
-
-            <div class="form-check form-check-inline">
-              <input
-                type="radio"
-                class="form-check-input"
-                name="selectComponentRadio"
-                id="radioSuccessComponent"
-                value="app-success-alert"
-                v-model="selectedComponent"
-              />
-              <label class="form-check-label" for="radioSuccessComponent">Success</label>
+            <div v-if="part == 2" class="row">
+              <h2>Part II</h2>
             </div>
-
-            <transition :name="selectedTransition" mode="out-in">
-              <component :is="selectedComponent" class="my-3"></component>
-            </transition>
-
-            <hr />
-          </div>
-
-          <div class="col-sm-12 col-md-6">
-            <button class="btn btn-light shadow border form-control" @click="addItem">Add Item</button>
-            <ul class="list-group my-3 shadow">
-              <li
-                class="list-group-item"
-                v-for="(number, index) in numbers"
-                :key="index"
-                @click="rmvItem(index)"
-              >{{ number }}</li>
-            </ul>
           </div>
         </div>
       </div>
@@ -123,10 +158,11 @@ export default {
     return {
       show: false,
       load: true,
-      selectedTransition: "fade",
+      selectedTransition: "slide",
       elementWidth: 100,
       selectedComponent: "app-success-alert",
-      numbers: [1, 2, 3, 4, 5]
+      numbers: [1, 2, 3, 4, 5],
+      part: 1
     };
   },
 
@@ -137,6 +173,15 @@ export default {
 
     numbersLength() {
       return Number(this.numbers.length);
+    },
+
+    maxNumber() {
+      let max = Math.max(...this.numbers);
+      if (isFinite(max)) {
+        return max;
+      } else {
+        return 0;
+      }
     }
   },
 
@@ -146,7 +191,9 @@ export default {
     },
 
     addItem() {
-      this.numbers.push(this.numbersLength + 1);
+      const pos = Math.floor(Math.random() * this.numbersLength);
+      this.numbers.splice(pos, 0, this.maxNumber + 1);
+      //      this.numbers.push(this.numbersLength + 1);
     },
 
     rmvItem(index) {
@@ -244,7 +291,7 @@ li:hover {
 
 .slide-enter-active {
   animation: slide-in 1s ease-out forwards;
-  transition: opacity 1s;
+  transition: opacity 0.5s;
 }
 
 .slide-leave {
@@ -252,13 +299,18 @@ li:hover {
 
 .slide-leave-active {
   animation: slide-out 1s ease-out forwards;
-  transition: opacity 1s;
+  transition: opacity 0.5s;
   opacity: 0;
+  position: absolute;
+}
+
+.slide-move {
+  transition: transform 0.5s;
 }
 
 @keyframes slide-in {
   from {
-    transform: translateY(5px);
+    transform: translateY(20px);
   }
   to {
     transform: translateY(0px);
@@ -270,7 +322,7 @@ li:hover {
     transform: translateY(0);
   }
   to {
-    transform: translateY(10px);
+    transform: translateY(20px);
   }
 }
 </style>
