@@ -45,6 +45,7 @@
 <script>
 const MODE_ADDITION = 1;
 const MODE_SUBTRACTION = 2;
+
 export default {
   data() {
     return {
@@ -57,6 +58,7 @@ export default {
       ]
     };
   },
+
   methods: {
     generateQuestion() {
       const firstNumber = this.generateRandomNumber(1, 100);
@@ -85,18 +87,21 @@ export default {
         correctAnswer
       );
       this.btnData[0].correct = false;
+
       this.btnData[1].answer = this.generateRandomNumber(
         correctAnswer - 10,
         correctAnswer + 10,
         correctAnswer
       );
       this.btnData[1].correct = false;
+
       this.btnData[2].answer = this.generateRandomNumber(
         correctAnswer - 10,
         correctAnswer + 10,
         correctAnswer
       );
       this.btnData[2].correct = false;
+
       this.btnData[3].answer = this.generateRandomNumber(
         correctAnswer - 10,
         correctAnswer + 10,
@@ -105,9 +110,12 @@ export default {
       this.btnData[3].correct = false;
 
       const correctButton = this.generateRandomNumber(0, 3);
+
       this.btnData[correctButton].correct = true;
+
       this.btnData[correctButton].answer = correctAnswer;
     },
+
     generateRandomNumber(min, max, except) {
       const rndNumber = Math.round(Math.random() * (max - min)) + min;
       console.log(min, max, rndNumber);
@@ -116,10 +124,12 @@ export default {
       }
       return rndNumber;
     },
+
     onAnswer(isCorrect) {
       this.$emit("answered", isCorrect);
     }
   },
+
   created() {
     this.generateQuestion();
   }

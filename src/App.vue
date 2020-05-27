@@ -6,13 +6,18 @@
           <div class="col">
             <h1>
               Animations & Transitions
-              <component :is="'app-toggle-part'" :part="part" @toggle-part="togglePart"></component>
+              <component
+                :is="'app-toggle-part'"
+                class="mx-3"
+                :part="part"
+                @toggle-part="togglePart"
+              ></component>
             </h1>
           </div>
         </div>
         <div class="row">
           <div class="col">
-            <div v-if="part == 1" class="row">
+            <div v-show="part == 1" class="row">
               <div class="col-sm-12 col-md-6">
                 <select class="form-control form-control-sm" v-model="selectedTransition">
                   <option value="fade">Fade</option>
@@ -65,7 +70,7 @@
                   :css="false"
                 >
                   <div
-                    style="width: 100%; height: 100px; background-color: lightgreen; margin-top: 5px; border-radius: 0 0 5px 5px; box-shadow: 1px 1px 2px #aaa"
+                    style="width: 100%; height: 5px; background-color: lightgreen; margin-top: 5px; box-shadow: 0px 0px 4px #00ff00"
                     v-if="load"
                   ></div>
                 </transition>
@@ -119,9 +124,9 @@
                 </ul>
               </div>
             </div>
-            <div v-if="part == 2" class="row">
+            <div v-show="part == 2" class="row">
               <div class="col">
-                <component :is="'app-quiz'"></component>
+                <component :is="'app-math-quiz'"></component>
               </div>
             </div>
           </div>
@@ -134,14 +139,14 @@
 <script>
 import DangerAlert from "./components/DangerAlert.vue";
 import SuccessAlert from "./components/SuccessAlert.vue";
-import Quiz from "./components/Quiz.vue";
+import MathQuiz from "./components/MathQuiz.vue";
 import TogglePart from "./components/TogglePart.vue";
 
 export default {
   components: {
     "app-danger-alert": DangerAlert,
     "app-success-alert": SuccessAlert,
-    "app-quiz": Quiz,
+    "app-math-quiz": MathQuiz,
     "app-toggle-part": TogglePart
   },
 
@@ -153,7 +158,7 @@ export default {
       elementWidth: 100,
       selectedComponent: "app-success-alert",
       numbers: [1, 2, 3, 4, 5],
-      part: 2
+      part: 1
     };
   },
 
@@ -209,11 +214,11 @@ export default {
       const interval = setInterval(() => {
         el.style.width = this.elementWidth + round * 10 + "px";
         round++;
-        if (round > 30) {
+        if (round > 40) {
           clearInterval(interval);
           done(console.log("enter.done()"));
         }
-      }, 20);
+      }, 10);
     },
 
     afterEnter(el) {
