@@ -1,6 +1,10 @@
 # vue-animations-transitions
 
-## Project setup
+<div align="center">
+  <img width="100%" src ="https://github.com/risingworld777/vue-animation-transition/blob/master/paek1127.gif"/>
+</div>
+
+### Project setup
 ```
 npm install
 ```
